@@ -1,17 +1,25 @@
 import { Validator } from "./validator";
 import type { Account } from "./account";
-import type { ConfirmationValidatorConfigResponse, CrawlData, CrawlCommand, CleanResponse, CleanData } from "./models";
+import type {
+  BankConfirmationServices,
+  ConfirmationValidatorConfigResponse,
+  CleanResponse,
+  CrawlResponse,
+  CleanData,
+  CrawlData,
+  PaginationOptions,
+} from "./models";
 
 /** Used for connecting with and using confirmation validator server nodes. */
 export class ConfirmationValidator extends Validator {
   /** Gets the current confirmation confirmation validator's listed services. */
-  async getBankConfirmationServices() {
-    return await super.getData("/bank_confirmation_services");
+  async getBankConfirmationServices(options: Partial<PaginationOptions> = {}) {
+    return await super.getPaginatedData("/bank_confirmation_services", options);
   }
 
   /** Gets the current crawl status */
   async getCrawlStatus() {
-    return await super.getData("/crawl");
+    return await super.getData<CrawlResponse>("/crawl");
   }
 
   /**
@@ -19,9 +27,9 @@ export class ConfirmationValidator extends Validator {
    * @param account An Account created with the Network Id Signing key of the current Confirmation Validator
    */
   async startCrawl(account: Account) {
-    return await super.postData<CleanResponse>(
+    return await super.postData<CrawlResponse>(
       "/crawl",
-      account.createSignedMessage<CleanData>({ clean: "start" })
+      account.createSignedMessage<CrawlData>({ crawl: "start" })
     );
   }
 
@@ -30,9 +38,9 @@ export class ConfirmationValidator extends Validator {
    * @param account An Account created with the Network Id Signing key of the current Confirmation Validator
    */
   async stopCrawl(account: Account) {
-    return await super.postData<CleanResponse>(
+    return await super.postData<CrawlResponse>(
       "/crawl",
-      account.createSignedMessage<CleanData>({ clean: "stop" })
+      account.createSignedMessage<CrawlData>({ crawl: "stop" })
     );
   }
 
@@ -72,7 +80,7 @@ export class ConfirmationValidator extends Validator {
    * @param protocol the protocol of the primary validator
    * @param account the account that the current `ConfirmationValidator` is connected to
    */
-  async sendPrimaryValidatorUpdatedPing(ipAddress: string, port: string, protocol: string, account: Account) {
+  async sendPrimaryValidatorUpdatedPing(ipAddress: string, port: number, protocol: string, account: Account) {
     return await super.postData(
       "/primary_validator_updated",
       account.createSignedMessage({ ip_address: ipAddress, port, protocol })

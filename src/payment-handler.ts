@@ -48,6 +48,22 @@ export class PaymentHandler {
    *
    */
   async createTransaction(sender: Account, txs: Transaction[]) {
+    txs = txs.map((tx) => {
+      if (tx.memo) {
+        tx.memo = tx.memo.trim();
+        if (!/^[a-zA-Z0-9_ ]*$/.test(tx.memo))
+          throwError("Invalid memo", "Memo can only contain alphanumeric characters, spaces, and underscores");
+        if (tx.memo.length > 64) throwError("Invalid memo", "Memo cannot exceed 64 characters");
+      }
+      if (tx.memo === "") delete tx.memo;
+      return tx;
+    });
+
+    if (!this.primaryValidator)
+      throwError(
+        "The Payment Handler is not initalized yet.\nTry calling the async '.init()' method on the Payment Handler before sending transactions"
+      );
+
     const { balance_lock: balanceLock } = await this.primaryValidator!.getAccountBalanceLock(
       sender.accountNumberHex
     ).catch((err) =>
@@ -61,7 +77,8 @@ export class PaymentHandler {
         fee: config.node_type,
         recipient: config.account_number,
       })),
-    ];
+    ].sort((a, b) => (a.recipient > b.recipient ? 1 : -1));
+
     return { balanceLock, transactions, sender };
   }
 
@@ -74,17 +91,17 @@ export class PaymentHandler {
     transactions: Transaction[];
     sender: Account;
   }) {
-    await this.bank.addBlocks(transaction.balanceLock!, transaction.transactions, transaction.sender);
+    return await this.bank.addBlocks(transaction.balanceLock!, transaction.transactions, transaction.sender);
   }
 
   /**
    * Sends a specific amount of coins to a given account from the sender.
    * @param transferDetails The object with transfer details like sender, recipient and amount
    */
-  async sendCoins({ sender, recipient, amount }: TransferDetails) {
+  async sendCoins({ sender, recipient, amount, memo = "" }: TransferDetails) {
     const recipientAccount = typeof recipient === "string" ? recipient : recipient.accountNumberHex;
-    const transaction = await this.createTransaction(sender, [{ recipient: recipientAccount, amount }]);
-    await this.broadcastTransaction(transaction);
+    const transaction = await this.createTransaction(sender, [{ amount, memo, recipient: recipientAccount }]);
+    return await this.broadcastTransaction(transaction);
   }
 
   /**
@@ -94,6 +111,6 @@ export class PaymentHandler {
    */
   async sendBulkTransactions(sender: Account, txs: Transaction[]) {
     const transaction = await this.createTransaction(sender, txs);
-    await this.broadcastTransaction(transaction);
+    return await this.broadcastTransaction(transaction);
   }
 }

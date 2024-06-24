@@ -1,19 +1,17 @@
+ [ ![Issues](https://img.shields.io/github/issues/thenewboston-developers/thenewboston-js?color=0088ff) ](https://github.com/thenewboston-developers/thenewboston-js/issues) [ ![GitHub pull requests](https://img.shields.io/github/issues-pr/thenewboston-developers/thenewboston-js?color=0088ff) ](https://github.com/thenewboston-developers/thenewboston-js/pulls)  [![thenewboston on npm](https://img.shields.io/npm/v/thenewboston?logo=npm&logoColor=fff&label=NPM+package&color=limegreen)](https://www.npmjs.com/package/thenewboston) [ ![Stars](https://img.shields.io/github/stars/thenewboston-developers/thenewboston-js.svg) ](https://github.com/thenewboston-developers/thenewboston-js/stargazers) [ ![All contributors](https://img.shields.io/github/contributors/thenewboston-developers/thenewboston-js.svg) ](https://github.com/thenewboston-developers/thenewboston-js/graphs/contributors) 
+
+ 
 ## Overview
 
 JavaScript library for thenewboston.
-
 
 ### Contributing
 
 Find out how you can contribute [here](https://github.com/thenewboston-developers/thenewboston-js/blob/master/docs/CONTRIBUTING.md).
 
-### Testing
-
-Some day...
-
 ## Documentation
 
-Check out the [documentation here](https://github.com/thenewboston-developers/thenewboston-js/blob/master/docs/index.md).
+Check out the [documentation here](https://thenewboston-developers.github.io/thenewboston-js/).
 
 ## Community
 
@@ -39,8 +37,7 @@ All donations will go to thenewboston to help fund the team to continue to devel
 | ![Bitcoin Logo](https://github.com/thenewboston-developers/Website/raw/development/src/assets/images/bitcoin.png)           | 3GZYi3w3BXQfyb868K2phHjrS4i8LooaHh                               |
 | ![Ethereum Logo](https://github.com/thenewboston-developers/Website/raw/development/src/assets/images/ethereum.png)         | 0x0E38e2a838F0B20872E5Ff55c82c2EE7509e6d4A                       |
 
+
 ## License
 
 thenewboston is [MIT licensed](http://opensource.org/licenses/MIT).
-
- [ ![Issues](https://img.shields.io/github/issues/anuraghazra/github-readme-stats?color=0088ff) ](https://github.com/thenewboston-developers/thenewboston-js/issues) [ ![GitHub pull requests](https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff) ](https://github.com/thenewboston-developers/thenewboston-js/pulls)  [![Thenewboston on npm](https://img.shields.io/npm/v/@angular/core.svg?logo=npm&logoColor=fff&label=NPM+package&color=limegreen)](https://www.npmjs.com/package/thenewboston)   [ ![Discord conversation](https://img.shields.io/discord/463752820026376202.svg?logo=discord&logoColor=fff&label=Discord&color=7389d8) ](https://discord.com/invite/thenewboston) 

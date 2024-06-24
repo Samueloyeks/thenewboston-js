@@ -52,7 +52,28 @@ export class Account {
    * @param accountNumber the given account number hex string
    */
   static isValidPair(signingKey: string, accountNumber: string) {
-    return new Account(signingKey).accountNumberHex === accountNumber;
+    try {
+      return new Account(signingKey).accountNumberHex === accountNumber;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /**
+   * Checks if the message was signed by a specific account number.
+   * @param message the message to verify
+   * @param signature the signed message
+   * @param accountNumber the account number that signed the message
+   */
+  static verifySignature(message: string, signature: string, accountNumber: string) {
+    const encodedMessage = new TextEncoder().encode(message);
+    const encodedSignature = hexToUint8Array(signature);
+    const encodedAccountNumber = hexToUint8Array(accountNumber);
+    try {
+      return sign.detached.verify(encodedMessage, encodedSignature.slice(0, 64), encodedAccountNumber);
+    } catch {
+      return false;
+    }
   }
 
   /** The 32 byte account number as a 32 byte hex string. */
